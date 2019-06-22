@@ -84,14 +84,14 @@ if __name__ == '__main__':
 #    amp.start()
 #    for i in range(10):
 #        t = time.time()
-#        print amp.get_data()
-#        print
-#        print "FS:", 1 / (time.time() - t)
-#        print
+#        print(amp.get_data())
+#        print()
+#        print("FS:", 1 / (time.time() - t))
+#        print()
 #    amp.stop()
 #
 #    # the same using a context manager, start and stop are called by the
 #    # context manager
 #    with amp as a:
 #        for i in range(10):
-#            print a.get_data()
+#            print(a.get_data())

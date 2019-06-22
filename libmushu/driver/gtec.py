@@ -22,7 +22,6 @@
 
 import struct
 import time
-from exceptions import Exception
 import logging
 
 import usb
@@ -105,7 +104,7 @@ class GUSBamp(Amplifier):
         except usb.USBError:
             data = []
         data = ''.join(map(chr, data))
-        data = np.fromstring(data, np.float32, len(data)/4)
+        data = np.fromstring(data, np.float32, len(data) // 4)
         try:
             data = data.reshape(-1, 17)
         except:
@@ -282,7 +281,7 @@ def main():
             data = amp.get_data()
             dt = time.time() - t
             if len(data) > 0:
-                print "%.5f seconds (%.5f ps), length: %d" % (dt, (len(data) / 16.) * 1/dt, len(data))
+                print("%.5f seconds (%.5f ps), length: %d" % (dt, (len(data) / 16.) * 1/dt, len(data)))
     finally:
         amp.stop()
 

@@ -76,7 +76,7 @@ class Epoc(Amplifier):
             data = self.parse_raw(raw)
             data = np.array(data)
         except Exception as e:
-            print e
+            print(e)
             data = np.array()
         return data.reshape(1, -1), []
 
@@ -95,15 +95,15 @@ class Epoc(Amplifier):
 
         """
         if research:
-            key = ''.join([sn[15], '\x00', sn[14], '\x54',
-                           sn[13], '\x10', sn[12], '\x42',
-                           sn[15], '\x00', sn[14], '\x48',
-                           sn[13], '\x00', sn[12], '\x50'])
+            key = ''.join([sn[15], b'\x00', sn[14], b'\x54',
+                           sn[13], b'\x10', sn[12], b'\x42',
+                           sn[15], b'\x00', sn[14], b'\x48',
+                           sn[13], b'\x00', sn[12], b'\x50'])
         else:
-            key = ''.join([sn[15], '\x00', sn[14], '\x48',
-                           sn[13], '\x00', sn[12], '\x54',
-                           sn[15], '\x10', sn[14], '\x42',
-                           sn[13], '\x00', sn[12], '\x50'])
+            key = ''.join([sn[15], b'\x00', sn[14], b'\x48',
+                           sn[13], b'\x00', sn[12], b'\x54',
+                           sn[15], b'\x10', sn[14], b'\x42',
+                           sn[13], b'\x00', sn[12], b'\x50'])
         return key
 
     def decrypt(self, raw):
@@ -169,10 +169,10 @@ class Epoc(Amplifier):
 
 if __name__ == '__main__':
     amp = Epoc()
-    print 'Reading...'
+    print('Reading...')
     while 1:
         try:
-            print amp.get_data()
+            print(amp.get_data())
         except Exception as e:
-            print e
+            print(e)
             break
