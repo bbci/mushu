@@ -81,6 +81,7 @@ class GUSBamp(Amplifier):
         self.set_common_reference()
         self.set_common_ground()
         self.set_calibration_mode('sine')
+        self.fs = None
         self.set_sampling_ferquency(128, [False for i in range(16)], None, None)
 
     def start(self):
@@ -209,7 +210,11 @@ class GUSBamp(Amplifier):
 
         # set the sampling frequency
         self.devh.controlMsg(CX_OUT, 0xb6, value=fs, buffer=0)
+        self.fs = fs
 
+    def get_sampling_frequency(self):
+        """ Get the sampling frequency. """
+        return self.fs
 
     def set_calibration_mode(self, mode):
         # buffer: [0x03, 0xd0, 0x07, 0x02, 0x00, 0xff, 0x07]
