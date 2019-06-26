@@ -73,11 +73,11 @@ class GUSBamp(Amplifier):
         self.set_mode('data')
         self.devh.controlMsg(CX_OUT, 0xb6, value=0x80, buffer=0)
         self.devh.controlMsg(CX_OUT, 0xb5, value=0x80, buffer=0)
-        self.devh.controlMsg(CX_OUT, 0xb9, value=0x00, buffer="\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10")
+        self.devh.controlMsg(CX_OUT, 0xb9, value=0x00, buffer=b'\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10')
         self.set_slave_mode(False)
         self.devh.controlMsg(CX_OUT, 0xd3, value=0x01, buffer=0)
         self.devh.controlMsg(CX_OUT, 0xca, value=0x01, buffer=0)
-        self.devh.controlMsg(CX_OUT, 0xc8, value=0x01, buffer="\x00"*16)
+        self.devh.controlMsg(CX_OUT, 0xc8, value=0x01, buffer=b'\x00'*16)
         self.set_common_reference()
         self.set_common_ground()
         self.set_calibration_mode('sine')
@@ -107,8 +107,7 @@ class GUSBamp(Amplifier):
         except usb.USBError as e:
             logger.error("Got usb error: {}".format(e))
             data = []
-        data = ''.join(map(chr, data))
-        data = np.fromstring(data, np.float32, len(data) // 4)
+        data = np.frombuffer(data, np.float32, len(data) // 4)
         try:
             data = data.reshape(-1, 17)
         except:
@@ -171,7 +170,7 @@ class GUSBamp(Amplifier):
         # struct.pack('<'+'d'*18, *coeffs)
 
         # special filter: means no filter
-        null_filter = "\x00\x00\x00\x00\x00\x00\xf0\x3f"+"\x00\x00\x00\x00\x00\x00\x00\x00"*17
+        null_filter = b'\x00\x00\x00\x00\x00\x00\xf0\x3f'+b'\x00\x00\x00\x00\x00\x00\x00\x00'*17
 
         if bpfilter:
             bp_hp, bp_lp, bp_fs, bp_order = bpfilter
@@ -225,13 +224,13 @@ class GUSBamp(Amplifier):
         # (1) mode:
         # (2) amplitude: little endian (0x07d0 = 2000)
         if mode == 'sine':
-            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer="\x03\xd0\x07\x02\x00\xff\x07")
+            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer=b'\x03\xd0\x07\x02\x00\xff\x07')
         elif mode == 'sawtooth':
-            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer="\x02\xd0\x07\x02\x00\xff\x07")
+            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer=b'\x02\xd0\x07\x02\x00\xff\x07')
         elif mode == 'whitenoise':
-            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer="\x05\xd0\x07\x02\x00\xff\x07")
+            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer=b'\x05\xd0\x07\x02\x00\xff\x07')
         elif mode == 'square':
-            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer="\x01\xd0\x07\x02\x00\xff\x07")
+            self.devh.controlMsg(CX_OUT, 0xcb, value=0x00, buffer=b'\x01\xd0\x07\x02\x00\xff\x07')
         else:
             raise AmpError('Unknown mode: %s' % mode)
 
