@@ -83,6 +83,8 @@ class GUSBamp(Amplifier):
         self.set_calibration_mode('sine')
         self.fs = None
         self.set_sampling_ferquency(128, [False for i in range(16)], None, None)
+        self.devh.setAltInterface(1)
+
 
     def start(self):
         self.devh.controlMsg(CX_OUT, 0xb5, value=0x08, buffer=0)
@@ -102,7 +104,8 @@ class GUSBamp(Amplifier):
         try:
             # TODO what is the optimal timeout here?
             data = self.devh.bulkRead(endpoint, size, 100)
-        except usb.USBError:
+        except usb.USBError as e:
+            logger.error("Got usb error: {}".format(e))
             data = []
         data = ''.join(map(chr, data))
         data = np.fromstring(data, np.float32, len(data) // 4)
