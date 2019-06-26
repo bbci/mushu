@@ -82,7 +82,7 @@ class GUSBamp(Amplifier):
         self.set_common_ground()
         self.set_calibration_mode('sine')
         self.fs = None
-        self.set_sampling_ferquency(128, [False for i in range(16)], None, None)
+        self.set_sampling_frequency(128, [False for i in range(16)], None, None)
         self.devh.setAltInterface(1)
 
 
@@ -154,7 +154,7 @@ class GUSBamp(Amplifier):
             raise AmpError('Unknown mode: %s' % mode)
 
 
-    def set_sampling_ferquency(self, fs, channels, bpfilter, notchfilter):
+    def set_sampling_frequency(self, fs, channels, bpfilter, notchfilter):
         """ Set the sampling frequency and filters for individual channels.
 
         Parameters:
