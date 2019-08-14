@@ -1,9 +1,8 @@
 # essential
 numpy>=1.7.0
 matplotlib>=1.2.0
-scipy>=0.10.1
 sphinx
 # amplifier
 crypto>=1.0.0
-pyusb>=1.0.0a3
+pyusb>=1.0.2
 pylsl>=1.10.4
