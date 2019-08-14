@@ -519,8 +519,8 @@ def main():
     for i in range(100):
         data, _ = amp.get_data()
         num_samples += data.shape[0]
-    fs = num_samples / (time.time() -start)
-    print(fs)
+    fs = num_samples / (time.time() - start)
+    print("measured sampling frequency: {}".format(fs))
     amp.stop()
 
 if __name__ == '__main__':
