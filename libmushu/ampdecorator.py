@@ -298,21 +298,19 @@ class MarkerServer(asyncore.dispatcher):
         if proto.lower() == 'tcp':
             logger.debug('Opening TCP socket.')
             self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-            self.setblocking(0)
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             self.bind(('', PORT))
             self.listen(5)
         elif proto.lower() == 'udp':
             logger.debug('Opening UDP socket.')
             self.create_socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.setblocking(0)
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.bind(('', PORT))
             # in contrast to a TCP socket, an UDP socket has no
             # connection, so the socket is immediately ready to receive
             # data
-            handler = MarkerHandler(self, self.queue)
+            handler = MarkerHandler(self.socket, self.queue)
         else:
             raise ValueError('Unsupported protocol: {proto}'.format(proto=proto))
 

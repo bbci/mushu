@@ -20,8 +20,8 @@
 
 import logging
 import time
-import ttk
-import Tkinter as tk
+from tkinter import ttk
+import tkinter as tk
 
 import matplotlib
 matplotlib.use('TkAgg')
@@ -73,7 +73,7 @@ class Gui(ttk.Frame):
         fig = Figure()
         self.canvas = FigureCanvas(fig, master=self.master)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-        self.canvas.show()
+        self.canvas.draw()
         self.axis = fig.add_subplot(111)
 
         self.PAST_POINTS = 256
